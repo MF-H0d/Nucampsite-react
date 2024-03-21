@@ -1,18 +1,34 @@
 import { CAMPSITES } from "../../app/shared/CAMPSITES";
+import { createSlice } from "@reduxjs/toolkit";
 
-export const selectAllCampsites = () => {
-  return CAMPSITES;
+const initialState = {
+  campsitesArray: CAMPSITES,
 };
 
-export const selectRandomCampsite = () => {
-  const index = Math.floor(Math.random() * CAMPSITES.length);
-  return CAMPSITES[index];
+const campsitesSlice = createSlice({
+  name: "campsites",
+  initialState,
+});
+
+export const campsitesReducer = campsitesSlice.reducer;
+
+export const selectAllCampsites = (state) => {
+  return state.campsites.campsitesArray;
 };
 
-export const selectCampsiteById = (id) => {
-  return CAMPSITES.find((campsite) => campsite.id === parseInt(id));
+export const selectRandomCampsite = (state) => {
+  const index = Math.floor(
+    Math.random() * state.campsites.campsitesArray.length
+  );
+  return state.campsites.campsitesArray[index];
 };
 
-export const selectFeaturedCampsite = () => {
-  return CAMPSITES.find((campsite) => campsite.featured);
+export const selectCampsiteById = (id) => (state) => {
+  return state.campsites.campsitesArray.find(
+    (campsite) => campsite.id === parseInt(id)
+  );
+};
+
+export const selectFeaturedCampsite = (state) => {
+  return state.campsites.campsitesArray.find((campsite) => campsite.featured);
 };
